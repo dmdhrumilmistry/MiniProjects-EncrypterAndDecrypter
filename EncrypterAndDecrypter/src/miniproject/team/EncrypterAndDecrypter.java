@@ -2,7 +2,7 @@ package miniproject.team;
 
 /* * * * * * * * * * * * * * * *
  * Contributed by : 
- * 1. Dhrumil Mistry
+ * @author Dhrumil Mistry
  * 
  * * * * * * * * * * * * * * * *
  * for Skill Lab MiniProject

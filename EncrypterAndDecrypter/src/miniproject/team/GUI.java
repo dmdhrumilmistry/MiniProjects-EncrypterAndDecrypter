@@ -1,6 +1,6 @@
 /* * * * * * * * * * * * * * * * * * * * * * * 
  * Written and Contributed by :
- * 1. Dhrumil Mistry
+ * @author Dhrumil Mistry
  * 
  * * * * * * * * * * * * * * * * * * * * * * *
  * For testing GUI for encrypter and decrypter 
@@ -15,6 +15,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 
+//GUI imports
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -22,53 +23,95 @@ import javax.swing.JTextArea;
 import javax.swing.WindowConstants;
 
 
-public final class GUI extends JFrame implements ActionListener{
-
+public final class GUI extends JFrame {
+	
+	//Creating Frame
 	JFrame frame;
-	JButton enc;
-	JLabel greet;
-	JLabel message;
-	JLabel encText;
-	JTextArea inputL;
+	
+	//Creating Buttons for Encryption or Decryption Task
+	JButton encButton;
+	JButton dencButton;
+	
+	//Labels
+	JLabel inputTextBox;
+	JLabel forKey;
+	
+	//Text Areas
+	JTextArea inputL, inputKey, outputL;
 	
 	
 	public GUI() {
 		//Creating Frame Object
 		frame = new JFrame("Encrypter and Decrypter");
 		
-		//Creating Text Area for Input!!
+		//Creating Text Area for Input and Output!!
 		inputL = new JTextArea();
-		inputL.setBounds(10, 125, 200, 20);
-		//Creating Button
-		enc = new JButton("Start Encrypter!");
-		enc.setBounds(126, 160, 200, 50);//Setting Bounds
+		inputL.setBounds(10, 35, 200, 100);
+		outputL = new JTextArea();
+		outputL.setBounds(10, 300, 200, 100);
+		inputKey = new JTextArea();
+		inputKey.setBounds(10, 180, 200, 30);
 		
+		//Creating Button
+		encButton = new JButton("Start Encrypter!");
+		encButton.setBounds(250, 290, 200, 50);//Setting Bounds
+		dencButton = new JButton("Start Decrypter!");
+		dencButton.setBounds(250, 350, 200, 50);
 		
 		//Creating Label(Text which cannot be edited by user)
-		greet = new JLabel();
-		greet.setBounds(125, 300, 200, 50);//Setting Boundaries
-		greet.setText("Happy Encrypting!");
-		message = new JLabel();
-		message.setBounds(100, 100, 400, 50);
-		encText = new JLabel();
-		encText.setBounds(10, 450, 450, 50);
+		inputTextBox = new JLabel();
+		inputTextBox.setBounds(50, 0, 200, 50);//Setting Boundaries
+		inputTextBox.setText("Enter your Text here :");
+		forKey = new JLabel("Enter Number Key to Encrypt/Decrypt : ");
+		forKey.setBounds(10, 150, 400, 30);
+		
 		//Adding Action Listener to button
-		enc.addActionListener(this);
+		encButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent clickOnStartEncrypter) {
+				try {
+					int key = Integer.parseInt(inputKey.getText()); //Retrieving Integer from String
+					String encrypted = EncrypterAndDecrypter.encrypt(inputL.getText(), key);
+					outputL.setText(encrypted);
+					
+				} catch (Exception e) {
+					System.err.println(e);
+				}
+			}
+		});
+		
+		dencButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent clickOnStartEncrypter) {
+				try {
+					int key = Integer.parseInt(inputKey.getText());
+					String decrypted = EncrypterAndDecrypter.decrypt(inputL.getText(), key);
+					outputL.setText(decrypted);
+					
+				} catch (Exception e) {
+					System.err.println(e);
+				}
+			}
+		});
 		
 		//Adding Objects to Frame
-		frame.add(enc);
-		frame.add(greet);
-		frame.add(message);
+		frame.add(encButton);
+		frame.add(dencButton);
+		
+		frame.add(inputTextBox);
+		frame.add(forKey);
+		
 		frame.add(inputL);
-		frame.add(encText);
-		
+		frame.add(outputL);
+		frame.add(inputKey);
 		//Making Objects Visible
-		enc.setVisible(true);
-		message.setVisible(true);
-		greet.setVisible(true);
-		inputL.setVisible(true);
-		encText.setVisible(true);
+		encButton.setVisible(true);
+		dencButton.setVisible(true);
 		
+		forKey.setVisible(true);
+		inputTextBox.setVisible(true);
+		
+		inputL.setVisible(true);
+		outputL.setVisible(true);
+		inputKey.setVisible(true);
 		//Setting Frame Size before displaying
 		frame.setSize(500, 500);
 		
@@ -85,16 +128,5 @@ public final class GUI extends JFrame implements ActionListener{
 		System.exit(0);
 	}
 	
-	public void actionPerformed(ActionEvent clickOnStartEncrypter) {
-		try {
-
-			String encrypted = EncrypterAndDecrypter.encrypt(inputL.getText(), 2);
-			encText.setText(encrypted);
-			System.out.println(encrypted);
-			
-		} catch (Exception e) {
-			System.err.println(e);
-		}
-	}
+	
 }
-
